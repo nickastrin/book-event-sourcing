@@ -2,6 +2,7 @@
 
 public record BookResponse
 {
+    public Guid Id { get; init; }
     public required string Title { get; set; }
     public string Description { get; set; } = string.Empty; 
     

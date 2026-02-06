@@ -8,6 +8,7 @@ public static class ResponseMappers
     {
         return new BookResponse
         {
+            Id = book.Id,
             Title = book.Title,
             Description = book.Description,
             Authors = book.Authors,
