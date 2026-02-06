@@ -22,7 +22,7 @@ public class BookController(IBookService service) : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Book>> GetBookById(string id)
+    public async Task<ActionResult<Book>> GetBookById(Guid id)
     {
         var result = await service.HandleGetById(id);
 
@@ -32,5 +32,26 @@ public class BookController(IBookService service) : ControllerBase
         }
         
         return Ok(result);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<Guid>> CreateBook(CreateBookRequest book)
+    {
+        var response =  await service.HandleCreate(book);
+        return Ok(response);
+    }
+
+    [HttpPut("{id:guid}")]
+    public async Task<ActionResult> UpdateBook(Guid id, UpdateBookRequest book)
+    {
+        await service.HandleUpdate(id, book);
+        return Ok();
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteBook(Guid id)
+    {
+        await service.HandleDelete(id);
+        return Ok();
     }
 }

@@ -32,7 +32,7 @@ public static class DependencyInjection
             {
                 source.AutoCreateSchemaObjects = AutoCreate.All;
             }
-        });
+        }).UseLightweightSessions();
 
         return services;
     }

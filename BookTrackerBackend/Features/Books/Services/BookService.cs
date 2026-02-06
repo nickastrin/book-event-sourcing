@@ -23,7 +23,7 @@ public class BookService(IDocumentSession session): IBookService
         return await query.ToPagedListAsync(page, pageSize);
     }
 
-    public async Task<Book?> HandleGetById(string id)
+    public async Task<Book?> HandleGetById(Guid id)
     {
         var book = await session.LoadAsync<Book>(id);
         if (book == null || book.IsDeleted)
