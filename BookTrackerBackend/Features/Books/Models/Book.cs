@@ -99,5 +99,11 @@ public class Book
                 yield return @event;
             }
         }
+
+        if (PublishDate != request.PublishDate)
+        {
+            var @event = new PublishDateChanged(Id, request.PublishDate);
+            yield return @event;
+        }
     }
 }
