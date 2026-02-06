@@ -1,4 +1,6 @@
-﻿using BookTracker.Api.Features.Books.Models;
+﻿using BookTracker.Api.Features.Books.Mappers;
+using BookTracker.Api.Features.Books.Models;
+using BookTracker.Api.Infrastructure;
 using Marten;
 using Marten.Pagination;
 
@@ -6,7 +8,7 @@ namespace BookTracker.Api.Features.Books.Services;
 
 public class BookService(IDocumentSession session): IBookService
 {
-    public async Task<IPagedList<Book>> HandleGetAll(
+    public async Task<PaginatedResponse<BookResponse>> HandleGetAll(
         string? search,
         int page = 1,
         int pageSize = 10)
@@ -20,10 +22,18 @@ public class BookService(IDocumentSession session): IBookService
             query = query.Where(b => b.Title.Contains(search));
         }
 
-        return await query.ToPagedListAsync(page, pageSize);
+        var response = await query
+            .ToPagedListAsync(page, pageSize);
+
+        var books = response.Select(book => book.ToResponse());
+        return new PaginatedResponse<BookResponse>
+        {
+            Items = books,
+            TotalCount = response.TotalItemCount,
+        };
     }
 
-    public async Task<Book?> HandleGetById(Guid id)
+    public async Task<BookResponse?> HandleGetById(Guid id)
     {
         var book = await session.LoadAsync<Book>(id);
         if (book == null || book.IsDeleted)
@@ -31,7 +41,7 @@ public class BookService(IDocumentSession session): IBookService
             return null;
         }
 
-        return book;
+        return book.ToResponse();
     }
 
     public async Task<Guid> HandleCreate(CreateBookRequest book)

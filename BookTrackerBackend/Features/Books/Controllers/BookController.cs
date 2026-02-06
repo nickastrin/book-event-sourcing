@@ -10,7 +10,7 @@ namespace BookTracker.Api.Features.Books.Controllers;
 public class BookController(IBookService service) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<Book>> GetAllBooks(
+    public async Task<ActionResult<BookResponse>> GetAllBooks(
         [FromQuery] string? search, 
         [FromQuery] int page = 1, 
         [FromQuery] int pageSize = 10)
@@ -22,7 +22,7 @@ public class BookController(IBookService service) : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Book>> GetBookById(Guid id)
+    public async Task<ActionResult<BookResponse>> GetBookById(Guid id)
     {
         var result = await service.HandleGetById(id);
 
