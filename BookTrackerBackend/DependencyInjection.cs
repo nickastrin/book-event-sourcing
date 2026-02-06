@@ -1,4 +1,5 @@
 ﻿using BookTracker.Api.Features.Books.Models;
+using BookTracker.Api.Features.Books.Services;
 using JasperFx;
 using JasperFx.Events.Projections;
 using Marten;
@@ -38,6 +39,14 @@ public static class DependencyInjection
                 source.AutoCreateSchemaObjects = AutoCreate.All;
             }
         });
+
+        return services;
+    }
+
+    public static IServiceCollection AddServices(
+        this IServiceCollection services)
+    {
+        services.AddScoped<IBookService, BookService>();
 
         return services;
     }

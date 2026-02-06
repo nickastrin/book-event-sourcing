@@ -8,6 +8,7 @@ builder.Services
         builder.Configuration,
         builder.Environment)
     .AddInfrastructure()
+    .AddServices()
     .AddControllers();
 
 var app = builder.Build();
