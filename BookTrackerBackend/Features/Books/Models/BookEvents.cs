@@ -1,0 +1,19 @@
+﻿namespace BookTracker.Api.Features.Books.Models;
+
+public record BookAdded
+{
+    public Guid Id { get; init; }
+    public required string Title { get; init; }
+    public string? Description { get; init; }
+    public List<string> Authors { get; init; } = [];
+    public DateTime PublishDate { get; init; }
+}
+    
+public record TitleChanged(Guid Id, string Title);
+public record DescriptionChanged(Guid Id, string Description);
+public record AuthorAdded(Guid Id, string Name);
+public record AuthorRemoved(Guid Id, string Name);
+public record PublishDateChanged(Guid Id, DateTime Date);
+
+public record BookDeleted(Guid Id);
+    
