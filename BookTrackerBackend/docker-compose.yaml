@@ -1,0 +1,19 @@
+﻿services:
+  book-tracker.api:
+    image: book-tracker.api
+    build:
+      context: .
+      dockerfile: Dockerfile
+  book-tracker-db:
+    image: postgres:16-alpine
+    container_name: book-tracker-db
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=R4nd0mP4ssword!
+      - POSTGRES_DB=bookstore
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data:
