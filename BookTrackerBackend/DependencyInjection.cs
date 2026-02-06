@@ -1,10 +1,9 @@
 ﻿using BookTracker.Api.Features.Books.Models;
 using BookTracker.Api.Features.Books.Services;
 using JasperFx;
-using JasperFx.Events.Projections;
 using Marten;
 using Marten.Events.Projections;
-using Microsoft.OpenApi;
+using Microsoft.AspNetCore.OpenApi;
 
 namespace BookTracker.Api;
 
@@ -12,13 +11,8 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
-        services.AddSwaggerGen(options =>
-        {
-            options.SwaggerDoc(
-                "v1",
-                new OpenApiInfo { Title = "Book Tracker API", Version = "v1" });
-        });
-
+        services.AddOpenApi();
+        services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
         return services;
     }
     
