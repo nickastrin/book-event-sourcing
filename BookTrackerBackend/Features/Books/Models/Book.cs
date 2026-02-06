@@ -67,4 +67,37 @@ public class Book
         LastUpdatedAt = @event.Timestamp.UtcDateTime;
     }
 
+    public IEnumerable<object> GenerateUpdateEvents(UpdateBookRequest request)
+    {
+        if (!string.IsNullOrEmpty(request.Title) || Title != request.Title)
+        {
+            var @event = new TitleChanged(Id, request.Title);
+            yield return @event;
+        }
+
+        if (!string.IsNullOrEmpty(request.Description) || Description != request.Description)
+        {
+            var @event = new DescriptionChanged(Id, request.Description);
+            yield return @event;
+        }
+        
+        var removed = Authors.Except(request.Authors).ToList();
+        if (removed.Count > 0)
+        {
+            foreach (var author in removed)
+            {
+                var @event = new AuthorRemoved(Id, author);
+                yield return @event;
+            }
+        }
+        
+        var added  = Authors.Except(request.Authors).ToList();
+        if (added.Count > 0) {
+            foreach (var author in added)
+            {
+                var @event =  new AuthorAdded(Id, author);
+                yield return @event;
+            }
+        }
+    }
 }
