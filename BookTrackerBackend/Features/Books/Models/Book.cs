@@ -91,7 +91,7 @@ public class Book
             }
         }
         
-        var added  = Authors.Except(request.Authors).ToList();
+        var added  = request.Authors.Except(Authors).ToList();
         if (added.Count > 0) {
             foreach (var author in added)
             {
