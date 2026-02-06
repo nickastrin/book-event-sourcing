@@ -71,7 +71,7 @@ public class BookService(IDocumentSession session): IBookService
         }
 
         var events = savedBook.GenerateUpdateEvents(book);
-        session.Events.StartStream<Book>(bookId, events);
+        session.Events.Append(bookId, events);
         
         await session.SaveChangesAsync();
     }
@@ -85,7 +85,7 @@ public class BookService(IDocumentSession session): IBookService
         }
         
         var @event = new BookDeleted(bookId);
-        session.Events.StartStream<Book>(bookId, @event);
+        session.Events.Append(bookId, @event);
         
         await session.SaveChangesAsync();
     }
