@@ -1,0 +1,70 @@
+﻿using JasperFx.Events;
+namespace BookTracker.Api.Features.Books.Models;
+
+public class Book
+{
+    public Guid Id { get; set; }
+    public required string Title { get; set; }
+    public string Description { get; set; } = string.Empty; 
+    
+    public List<string> Authors { get; set; } = [];
+    public DateTime PublishDate { get; set; }
+
+    public bool IsDeleted { get; set; }
+    
+    public DateTime CreatedAt { get; set; }
+    public DateTime LastUpdatedAt { get; set; }
+    
+
+    public void Apply(IEvent<BookAdded> @event)
+    {
+        var data =  @event.Data;
+        var timestamp = @event.Timestamp;
+        
+        Id = data.Id;
+        Title = data.Title;
+        Description = data.Description ?? string.Empty;
+        Authors = data.Authors;
+        PublishDate = data.PublishDate;
+
+        CreatedAt = timestamp.UtcDateTime;
+        LastUpdatedAt = timestamp.UtcDateTime;
+    }
+
+    public void Apply(IEvent<TitleChanged> @event)
+    {
+        Title = @event.Data.Title;
+        LastUpdatedAt = @event.Timestamp.UtcDateTime;
+    }
+    
+    public void Apply(IEvent<DescriptionChanged> @event)
+    {
+        Description = @event.Data.Description;
+        LastUpdatedAt = @event.Timestamp.UtcDateTime;
+    }
+
+    public void Apply(IEvent<AuthorAdded> @event)
+    {
+        Authors.Add(@event.Data.Name);
+        LastUpdatedAt = @event.Timestamp.UtcDateTime;
+    }
+
+    public void Apply(IEvent<AuthorRemoved> @event)
+    {
+        Authors.Remove(@event.Data.Name);
+        LastUpdatedAt = @event.Timestamp.UtcDateTime;
+    }
+
+    public void Apply(IEvent<PublishDateChanged> @event)
+    {
+        PublishDate = @event.Data.Date;
+        LastUpdatedAt = @event.Timestamp.UtcDateTime;
+    }
+
+    public void Apply(IEvent<BookDeleted> @event)
+    {
+        IsDeleted = true;
+        LastUpdatedAt = @event.Timestamp.UtcDateTime;
+    }
+
+}
