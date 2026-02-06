@@ -1,6 +1,6 @@
 ﻿namespace BookTracker.Api.Features.Books.Models;
 
-public class BookResponse
+public record BookResponse
 {
     public required string Title { get; set; }
     public string Description { get; set; } = string.Empty; 
