@@ -37,7 +37,7 @@ export const BooksTable = ({ service }: BooksTableProps) => {
     },
     {
       accessorFn: (row) => row.authors.join(", "),
-      header: "Author",
+      header: "Authors",
     },
   ];
 

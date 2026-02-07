@@ -1,12 +1,12 @@
-import { Filterbar, FilterProvider } from "../core";
-import { BookService, BooksTable } from "../features/books";
+import { FilterProvider } from "../core";
+import { BookService, BooksFilterbar, BooksTable } from "../features/books";
 
 export const BooksListPage = () => {
   const service = new BookService();
 
   return (
     <FilterProvider>
-      <Filterbar />
+      <BooksFilterbar />
       <BooksTable service={service} />
     </FilterProvider>
   );
