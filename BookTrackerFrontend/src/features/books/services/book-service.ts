@@ -22,7 +22,7 @@ export class BookService {
   getHistory = async (
     id: string,
     signal?: AbortSignal,
-  ): Promise<BookHistory[]> => {
+  ): Promise<BookHistory> => {
     const queryPath = `${this.baseUrl}/${id}/history`;
     return await httpClient.get(queryPath, { signal });
   };
