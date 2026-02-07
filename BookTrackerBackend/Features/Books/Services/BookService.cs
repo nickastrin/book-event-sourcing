@@ -50,11 +50,25 @@ public class BookService(IDocumentSession session): IBookService
     {
         var events = await session.Events.FetchStreamAsync(id);
         
-        return events.Select(e => new BookHistoryResponse
+        return events.Select(e =>
         {
-            Type = e.Data.GetType().Name,
-            ModifiedAt = e.Timestamp.DateTime,
-            Details = e.Data
+            var details = e.Data switch
+            {
+                BookAdded @event => new { Change = @event.Title },
+                TitleChanged @event => new { Change = @event.Title },
+                DescriptionChanged @event => new { Change = @event.Description },
+                AuthorAdded @event => new { Change = @event.Name },
+                AuthorRemoved @event => new { Change = @event.Name },
+                PublishDateChanged @event => new { Change = @event.Date.ToString() },
+                _ => new object()
+            };
+
+            return new BookHistoryResponse
+            {
+                Type = e.Data.GetType().Name,
+                ModifiedAt = e.Timestamp.DateTime,
+                Details = details
+            };
         }).ToList();
     }
 
