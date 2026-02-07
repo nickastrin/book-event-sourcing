@@ -7,10 +7,22 @@ namespace BookTracker.Api.Features.Books.Services;
 public interface IBookService
 {
     public Task<PaginatedResponse<BookResponse>> HandleGetAll(
-        string? search, int page, int pageNumber);
-    public Task<BookResponse?> HandleGetById(Guid id);
-    public Task<IList<BookHistoryResponse>> HandleGetHistory(Guid id);
-    public Task<Guid> HandleCreate(CreateBookRequest book);
-    public Task HandleUpdate(Guid bookId, UpdateBookRequest book);
-    public Task HandleDelete(Guid bookId);
+        string? search, 
+        int page, 
+        int pageNumber, 
+        CancellationToken token);
+    public Task<BookResponse?> HandleGetById(
+        Guid id, 
+        CancellationToken token);
+    public Task<IList<BookHistoryResponse>> HandleGetHistory(
+        Guid id, 
+        CancellationToken token);
+    public Task<Guid> HandleCreate(
+        CreateBookRequest book, 
+        CancellationToken token);
+    public Task HandleUpdate(
+        Guid bookId, 
+        UpdateBookRequest book, 
+        CancellationToken token);
+    public Task HandleDelete(Guid bookId, CancellationToken token);
 }

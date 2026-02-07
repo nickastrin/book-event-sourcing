@@ -11,7 +11,8 @@ public class BookService(IDocumentSession session): IBookService
     public async Task<PaginatedResponse<BookResponse>> HandleGetAll(
         string? search,
         int page = 1,
-        int pageSize = 10)
+        int pageSize = 10, 
+        CancellationToken token = default)
     {
         var query = session
             .Query<Book>()
@@ -24,7 +25,7 @@ public class BookService(IDocumentSession session): IBookService
         }
 
         var response = await query
-            .ToPagedListAsync(page, pageSize);
+            .ToPagedListAsync(page, pageSize, token);
 
         var books = response.Select(book => book.ToResponse());
         return new PaginatedResponse<BookResponse>
@@ -34,9 +35,10 @@ public class BookService(IDocumentSession session): IBookService
         };
     }
 
-    public async Task<BookResponse?> HandleGetById(Guid id)
+    public async Task<BookResponse?> HandleGetById(
+        Guid id , CancellationToken token = default)
     {
-        var book = await session.LoadAsync<Book>(id);
+        var book = await session.LoadAsync<Book>(id, token);
         if (book == null || book.IsDeleted)
         {
             return null;
@@ -46,9 +48,10 @@ public class BookService(IDocumentSession session): IBookService
     }
 
 
-    public async Task<IList<BookHistoryResponse>> HandleGetHistory(Guid id)
+    public async Task<IList<BookHistoryResponse>> HandleGetHistory(
+        Guid id, CancellationToken token = default)
     {
-        var events = await session.Events.FetchStreamAsync(id);
+        var events = await session.Events.FetchStreamAsync(id, token: token);
         
         return events.Select(e =>
         {
@@ -72,7 +75,8 @@ public class BookService(IDocumentSession session): IBookService
         }).ToList();
     }
 
-    public async Task<Guid> HandleCreate(CreateBookRequest book)
+    public async Task<Guid> HandleCreate(
+        CreateBookRequest book, CancellationToken token = default)
     {
         var id = Guid.NewGuid();
         var @event = new BookAdded
@@ -85,14 +89,17 @@ public class BookService(IDocumentSession session): IBookService
         };
 
         session.Events.StartStream<Book>(id, @event);
-        await session.SaveChangesAsync();
+        await session.SaveChangesAsync(token);
 
         return id;
     }
 
-    public async Task HandleUpdate(Guid bookId, UpdateBookRequest book)
+    public async Task HandleUpdate(
+        Guid bookId, 
+        UpdateBookRequest book, 
+        CancellationToken token = default)
     {
-        var savedBook = await session.LoadAsync<Book>(bookId);
+        var savedBook = await session.LoadAsync<Book>(bookId, token);
         if (savedBook == null)
         {
             throw new Exception("Book not found");
@@ -101,12 +108,12 @@ public class BookService(IDocumentSession session): IBookService
         var events = savedBook.GenerateUpdateEvents(book);
         session.Events.Append(bookId, events);
         
-        await session.SaveChangesAsync();
+        await session.SaveChangesAsync(token);
     }
 
-    public async Task HandleDelete(Guid bookId)
+    public async Task HandleDelete(Guid bookId, CancellationToken token = default)
     {
-        var book = await session.LoadAsync<Book>(bookId);
+        var book = await session.LoadAsync<Book>(bookId, token);
         if (book == null)
         {
             return;
@@ -115,6 +122,6 @@ public class BookService(IDocumentSession session): IBookService
         var @event = new BookDeleted(bookId);
         session.Events.Append(bookId, @event);
         
-        await session.SaveChangesAsync();
+        await session.SaveChangesAsync(token);
     }
 }

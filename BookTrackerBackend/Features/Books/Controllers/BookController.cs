@@ -13,18 +13,20 @@ public class BookController(IBookService service) : ControllerBase
     public async Task<ActionResult<BookResponse>> GetAllBooks(
         [FromQuery] string? search, 
         [FromQuery] int page = 1, 
-        [FromQuery] int pageSize = 10)
+        [FromQuery] int pageSize = 10,
+        CancellationToken token = default)
     {
         var result = await service.HandleGetAll(
-            search, page, pageSize);
+            search, page, pageSize, token);
         
         return Ok(result);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<BookResponse>> GetBookById(Guid id)
+    public async Task<ActionResult<BookResponse>> GetBookById(Guid id, 
+        CancellationToken token = default)
     {
-        var result = await service.HandleGetById(id);
+        var result = await service.HandleGetById(id, token);
 
         if (result == null)
         {
@@ -35,31 +37,38 @@ public class BookController(IBookService service) : ControllerBase
     }
 
     [HttpGet("{id}/history")]
-    public async Task<ActionResult<IList<BookHistoryResponse>>> GetBookHistory(Guid id)
+    public async Task<ActionResult<IList<BookHistoryResponse>>> GetBookHistory(
+        Guid id, 
+        CancellationToken token = default)
     {
-        var result = await service.HandleGetHistory(id);
+        var result = await service.HandleGetHistory(id, token);
         
         return Ok(result);
     }
 
     [HttpPost]
-    public async Task<ActionResult<Guid>> CreateBook(CreateBookRequest book)
+    public async Task<ActionResult<Guid>> CreateBook(CreateBookRequest book,
+        CancellationToken token = default)
     {
-        var response =  await service.HandleCreate(book);
+        var response =  await service.HandleCreate(book, token);
         return Ok(response);
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult> UpdateBook(Guid id, UpdateBookRequest book)
+    public async Task<ActionResult> UpdateBook(
+        Guid id, 
+        UpdateBookRequest book, 
+        CancellationToken token = default)
     {
-        await service.HandleUpdate(id, book);
+        await service.HandleUpdate(id, book, token);
         return Ok();
     }
 
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> DeleteBook(Guid id)
+    public async Task<IActionResult> DeleteBook(Guid id, 
+        CancellationToken token = default)
     {
-        await service.HandleDelete(id);
+        await service.HandleDelete(id, token);
         return Ok();
     }
 }
