@@ -2,7 +2,6 @@
 using BookTracker.Api.Features.Books.Models;
 using BookTracker.Api.Features.Books.Utils;
 using BookTracker.Api.Infrastructure;
-using Gridify;
 using Marten;
 using Marten.Pagination;
 
@@ -10,22 +9,14 @@ namespace BookTracker.Api.Features.Books.Services;
 
 public class BooksService(IDocumentSession session): IBooksService
 {
-    private static readonly IGridifyMapper<Book> GridifyMapper = new GridifyMapper<Book>(config =>
-    {
-        config.CaseSensitive = false;
-        config.CaseInsensitiveFiltering = true;
-        config.IgnoreNotMappedFields = false;
-    })
-        .GenerateMappings();
-    
     public async Task<PaginatedResponse<BookResponse>> HandleGetAll(
-        FilterQuery filterQuery, 
+        BookFilters filterQuery, 
         CancellationToken token = default)
     {
         var query = session
             .Query<Book>()
             .Where(book => !book.IsDeleted)
-            .ApplyFiltering(filterQuery, GridifyMapper);
+            .ApplyFiltering(filterQuery);
 
         if (!string.IsNullOrEmpty(filterQuery.Search))
         {
@@ -37,8 +28,8 @@ public class BooksService(IDocumentSession session): IBooksService
             query = query.OrderQuery(filterQuery.OrderBy);
         }
 
-        var page = filterQuery.Page > 0 ? filterQuery.Page : 1;
-        var pageSize = filterQuery.PageSize > 0 ? filterQuery.PageSize : 10;
+        var page = filterQuery.Page ??  1;
+        var pageSize = filterQuery.PageSize ?? 10;
         
         var response = await query.ToPagedListAsync(
             page, 

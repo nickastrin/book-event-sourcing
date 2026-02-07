@@ -6,7 +6,7 @@ namespace BookTracker.Api.Features.Books.Services;
 public interface IBooksService
 {
     public Task<PaginatedResponse<BookResponse>> HandleGetAll(
-        FilterQuery query, 
+        BookFilters query, 
         CancellationToken token);
     public Task<BookResponse?> HandleGetById(
         Guid id, 

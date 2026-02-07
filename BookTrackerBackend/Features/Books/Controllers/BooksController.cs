@@ -11,7 +11,7 @@ public class BooksController(IBooksService service) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<BookResponse>> GetAllBooks(
-        [FromQuery] FilterQuery query,
+        [FromQuery] BookFilters query,
         CancellationToken token = default)
     {
         var result = await service.HandleGetAll(query, token);

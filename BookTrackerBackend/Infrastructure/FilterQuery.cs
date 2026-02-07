@@ -1,8 +1,9 @@
-﻿using Gridify;
+﻿namespace BookTracker.Api.Infrastructure;
 
-namespace BookTracker.Api.Infrastructure;
-
-public class FilterQuery : GridifyQuery
+public record FilterQuery
 {
     public string? Search { get; set; }
+    public int? Page { get; set; }
+    public int? PageSize { get; set; }
+    public string? OrderBy { get; set; }
 }
