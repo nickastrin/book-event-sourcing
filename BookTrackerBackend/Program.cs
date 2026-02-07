@@ -6,7 +6,7 @@ builder.Services
     .AddMartenConfig(
         builder.Configuration,
         builder.Environment)
-    .AddInfrastructure()
+    .AddInfrastructure(builder.Configuration)
     .AddServices()
     .AddControllers();
 
@@ -22,6 +22,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRouting();
+app.UseCors("AllowReactApp");
 app.MapControllers();
 app.UseHttpsRedirection();
 
