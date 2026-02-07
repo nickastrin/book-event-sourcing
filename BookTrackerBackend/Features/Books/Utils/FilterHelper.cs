@@ -9,8 +9,10 @@ public static class FilterHelper
     {
         if (filters.Authors.Count > 0)
         {
+            var authorFilter = filters.Authors.
+                ToHashSet(StringComparer.OrdinalIgnoreCase);
             query = query.Where(book => 
-                book.Authors.Any(author => filters.Authors.Contains(author))
+                book.Authors.Any(author => authorFilter.Contains(author))
             );
         }
 
