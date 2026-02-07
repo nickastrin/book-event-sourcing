@@ -14,7 +14,7 @@ export const useGetAll = ({ params, service }: GetAllArgs) => {
   });
 
   const { items, totalCount } = response || { items: [], totalCount: 0 };
-  return { items, totalCount, isFetching };
+  return { data: items, totalCount, isFetching };
 };
 
 type GetByIdArgs = {
