@@ -4,18 +4,24 @@ import {
   useReactTable,
   type ColumnDef,
 } from "@tanstack/react-table";
+import { useNavigate } from "react-router";
 
-interface GridProps<T> {
+interface GridProps<T extends { id: string }> {
   data: T[];
   totalCount: number;
   columns: ColumnDef<T>[];
 }
 
-export function Grid<T>({ data, columns }: GridProps<T>) {
+export function Grid<T extends { id: string }>({
+  data,
+  columns,
+}: GridProps<T>) {
+  const navigate = useNavigate();
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getRowId: (row) => row.id,
   });
 
   return (
@@ -37,7 +43,11 @@ export function Grid<T>({ data, columns }: GridProps<T>) {
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
+            <tr
+              key={row.id}
+              className="cursor-pointer"
+              onClick={() => navigate(row.id)}
+            >
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
