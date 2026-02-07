@@ -3,7 +3,7 @@ import type { BookService } from "../services";
 import type { Book } from "../types";
 
 type GetAllArgs = {
-  params: URLSearchParams;
+  params: string;
   service: BookService;
 };
 
