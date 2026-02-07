@@ -1,14 +1,9 @@
-import {
-  createContext,
-  useContext,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
+import { createContext, useContext } from "react";
 import type { QueryFilter } from "../types";
 
 interface FilterContextValue {
-  filters: QueryFilter;
-  onUpdateFilters: Dispatch<SetStateAction<QueryFilter>>;
+  queryFilters: QueryFilter;
+  onUpdateQueryFilters: (prev: QueryFilter) => void;
 }
 
 export const FilterContext = createContext<FilterContextValue | null>(null);

@@ -7,9 +7,9 @@ interface FilterProviderProps {
 }
 
 export const FilterProvider = ({ children }: FilterProviderProps) => {
-  const [filters, setFilters] = useState<QueryFilter>({
+  const [queryFilters, setQueryFilters] = useState<QueryFilter>({
     search: "",
-    filters: [],
+    filters: {},
     pagination: {
       page: 1,
       pageSize: 10,
@@ -17,8 +17,15 @@ export const FilterProvider = ({ children }: FilterProviderProps) => {
     orderBy: "",
   });
 
+  const onUpdateQueryFilters = (filters: Partial<QueryFilter>) => {
+    setQueryFilters((prev) => ({
+      ...prev,
+      ...filters,
+    }));
+  };
+
   return (
-    <FilterContext.Provider value={{ filters, onUpdateFilters: setFilters }}>
+    <FilterContext.Provider value={{ queryFilters, onUpdateQueryFilters }}>
       {children}
     </FilterContext.Provider>
   );

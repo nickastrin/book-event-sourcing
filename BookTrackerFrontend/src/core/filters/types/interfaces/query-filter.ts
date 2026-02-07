@@ -2,7 +2,7 @@ import type { Filter } from "./filter";
 
 export interface QueryFilter {
   search?: string;
-  filters?: Filter[];
+  filters?: Record<string, Filter>;
   pagination?: {
     page: number;
     pageSize: number;
