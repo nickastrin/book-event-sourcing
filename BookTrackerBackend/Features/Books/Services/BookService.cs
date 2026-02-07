@@ -19,7 +19,8 @@ public class BookService(IDocumentSession session): IBookService
 
         if (!string.IsNullOrEmpty(search))
         {
-            query = query.Where(b => b.Title.Contains(search));
+            query = query.Where(b => b.Title.Contains(
+                search, StringComparison.OrdinalIgnoreCase));
         }
 
         var response = await query
