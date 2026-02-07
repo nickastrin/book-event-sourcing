@@ -34,6 +34,14 @@ public class BookController(IBookService service) : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("{id}/history")]
+    public async Task<ActionResult<IList<BookHistoryResponse>>> GetBookHistory(Guid id)
+    {
+        var result = await service.HandleGetHistory(id);
+        
+        return Ok(result);
+    }
+
     [HttpPost]
     public async Task<ActionResult<Guid>> CreateBook(CreateBookRequest book)
     {

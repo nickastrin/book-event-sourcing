@@ -9,3 +9,10 @@ public record BookResponse
     public List<string> Authors { get; set; } = [];
     public DateOnly PublishDate { get; set; }
 }
+
+public record BookHistoryResponse
+{
+    public required string Type { get; init; }
+    public required object Details { get; init; }
+    public required DateTime ModifiedAt { get; init; } 
+}

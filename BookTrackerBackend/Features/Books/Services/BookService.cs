@@ -45,6 +45,19 @@ public class BookService(IDocumentSession session): IBookService
         return book.ToResponse();
     }
 
+
+    public async Task<IList<BookHistoryResponse>> HandleGetHistory(Guid id)
+    {
+        var events = await session.Events.FetchStreamAsync(id);
+        
+        return events.Select(e => new BookHistoryResponse
+        {
+            Type = e.Data.GetType().Name,
+            ModifiedAt = e.Timestamp.DateTime,
+            Details = e.Data
+        }).ToList();
+    }
+
     public async Task<Guid> HandleCreate(CreateBookRequest book)
     {
         var id = Guid.NewGuid();
