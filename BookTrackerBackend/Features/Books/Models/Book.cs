@@ -69,13 +69,13 @@ public class Book
 
     public IEnumerable<object> GenerateUpdateEvents(UpdateBookRequest request)
     {
-        if (!string.IsNullOrEmpty(request.Title) || Title != request.Title)
+        if (!string.IsNullOrEmpty(request.Title) && Title != request.Title)
         {
             var @event = new TitleChanged(Id, request.Title);
             yield return @event;
         }
 
-        if (!string.IsNullOrEmpty(request.Description) || Description != request.Description)
+        if (!string.IsNullOrEmpty(request.Description) && Description != request.Description)
         {
             var @event = new DescriptionChanged(Id, request.Description);
             yield return @event;
