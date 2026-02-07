@@ -1,6 +1,6 @@
-﻿
-using BookTracker.Api.Features.Books.Models;
+﻿using BookTracker.Api.Features.Books.Models;
 using BookTracker.Api.Features.Books.Services;
+using BookTracker.Api.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookTracker.Api.Features.Books.Controllers;
@@ -11,13 +11,10 @@ public class BooksController(IBooksService service) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<BookResponse>> GetAllBooks(
-        [FromQuery] string? search, 
-        [FromQuery] int page = 1, 
-        [FromQuery] int pageSize = 10,
+        [FromQuery] FilterQuery query,
         CancellationToken token = default)
     {
-        var result = await service.HandleGetAll(
-            search, page, pageSize, token);
+        var result = await service.HandleGetAll(query, token);
         
         return Ok(result);
     }

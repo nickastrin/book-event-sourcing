@@ -1,15 +1,12 @@
 ﻿using BookTracker.Api.Features.Books.Models;
 using BookTracker.Api.Infrastructure;
-using Marten.Pagination;
 
 namespace BookTracker.Api.Features.Books.Services;
 
 public interface IBooksService
 {
     public Task<PaginatedResponse<BookResponse>> HandleGetAll(
-        string? search, 
-        int page, 
-        int pageNumber, 
+        FilterQuery query, 
         CancellationToken token);
     public Task<BookResponse?> HandleGetById(
         Guid id, 
