@@ -6,7 +6,7 @@ using Marten.Pagination;
 
 namespace BookTracker.Api.Features.Books.Services;
 
-public class BookService(IDocumentSession session): IBookService
+public class BooksService(IDocumentSession session): IBooksService
 {
     public async Task<PaginatedResponse<BookResponse>> HandleGetAll(
         string? search,
@@ -94,7 +94,7 @@ public class BookService(IDocumentSession session): IBookService
         return id;
     }
 
-    public async Task HandleUpdate(
+    public async Task<Guid> HandleUpdate(
         Guid bookId, 
         UpdateBookRequest book, 
         CancellationToken token = default)
@@ -109,19 +109,21 @@ public class BookService(IDocumentSession session): IBookService
         session.Events.Append(bookId, events);
         
         await session.SaveChangesAsync(token);
+        return bookId;
     }
 
-    public async Task HandleDelete(Guid bookId, CancellationToken token = default)
+    public async Task<Guid> HandleDelete(Guid bookId, CancellationToken token = default)
     {
         var book = await session.LoadAsync<Book>(bookId, token);
         if (book == null)
         {
-            return;
+            throw new Exception("Book not found");
         }
         
         var @event = new BookDeleted(bookId);
         session.Events.Append(bookId, @event);
         
         await session.SaveChangesAsync(token);
+        return bookId;
     }
 }

@@ -4,7 +4,7 @@ using Marten.Pagination;
 
 namespace BookTracker.Api.Features.Books.Services;
 
-public interface IBookService
+public interface IBooksService
 {
     public Task<PaginatedResponse<BookResponse>> HandleGetAll(
         string? search, 
@@ -20,9 +20,9 @@ public interface IBookService
     public Task<Guid> HandleCreate(
         CreateBookRequest book, 
         CancellationToken token);
-    public Task HandleUpdate(
+    public Task<Guid> HandleUpdate(
         Guid bookId, 
         UpdateBookRequest book, 
         CancellationToken token);
-    public Task HandleDelete(Guid bookId, CancellationToken token);
+    public Task<Guid> HandleDelete(Guid bookId, CancellationToken token);
 }
