@@ -1,4 +1,4 @@
-import { OptionsFilter, SearchFilter, SortFilter } from "@src/core";
+import { DateFilter, OptionsFilter, SearchFilter, SortFilter } from "@src/core";
 import { AUTHORS } from "@src/features/authors";
 
 export const BooksFilterbar = () => {
@@ -6,6 +6,8 @@ export const BooksFilterbar = () => {
     <>
       Filters <SearchFilter />
       <OptionsFilter filterKey="authors" options={AUTHORS} />
+      <DateFilter filterKey="minPublishDate" />
+      <DateFilter filterKey="maxPublishDate" />
       <SortFilter
         sortableFields={[
           {
