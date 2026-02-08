@@ -1,4 +1,4 @@
-import type { Book } from "../types";
+import type { Book } from "../../types";
 import { DateInput, Input, Modal } from "@src/components";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import moment from "moment";
@@ -80,7 +80,9 @@ export const BooksUpsertModal = ({
                 )}
               />
 
-              <BooksAuthorDropdown />
+              <div className="flex flex-row justify-start">
+                <BooksAuthorDropdown />
+              </div>
               <BooksAuthorDisplay />
             </div>
             <div className="flex-none p-4 border-t bg-zinc-700">
