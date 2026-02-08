@@ -16,7 +16,7 @@ export const BooksListPage = () => {
 
   return (
     <FilterProvider>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 h-full">
         <BooksFilterbar />
         <BooksTable service={service} />
       </div>
