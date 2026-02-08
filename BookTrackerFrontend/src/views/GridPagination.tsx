@@ -29,7 +29,7 @@ export const GridPagination = ({ totalCount }: GridPaginationProps) => {
       <div className="ms-auto flex items-center gap-2">
         <button
           className={clsx("icon flex items-center", {
-            disabled: page === 1,
+            "pointer-events-none opacity-50": page === 1,
           })}
           onClick={() => onPageChange(page - 1)}
           disabled={page === 1}
@@ -42,7 +42,7 @@ export const GridPagination = ({ totalCount }: GridPaginationProps) => {
 
         <button
           className={clsx("icon flex items-center", {
-            disabled: page >= totalPages,
+            "pointer-events-none opacity-50": page >= totalPages,
           })}
           onClick={() => onPageChange(page + 1)}
           disabled={page >= totalPages}
