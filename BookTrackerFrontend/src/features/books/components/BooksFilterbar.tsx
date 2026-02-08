@@ -41,6 +41,14 @@ export const BooksFilterbar = () => {
             value: "publishDate",
             label: "Publish Date",
           },
+          {
+            value: "createdAt",
+            label: "Created At",
+          },
+          {
+            value: "lastUpdatedAt",
+            label: "Last Updated At",
+          },
         ]}
       />
     </div>

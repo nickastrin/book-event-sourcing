@@ -26,11 +26,11 @@ export const SortFilter = ({ sortableFields }: SortFilterProps) => {
 
   return (
     <Dropdown label={<FilterLabel label="Sort" icon={"sort"} />}>
-      <div className="max-h-60 ">
+      <div className="overflow-y-hidden">
         <div className="p-4 border-b">
           <p className="font-bold">Order by:</p>
         </div>
-        <div className="p-4 flex flex-col gap-4 overflow-y-auto">
+        <div className="p-4 flex flex-col gap-4 max-h-60 overflow-y-auto">
           {sortableFields.map((field) => (
             <div key={field.value} className="flex items-center gap-4">
               <span>{field.label}</span>

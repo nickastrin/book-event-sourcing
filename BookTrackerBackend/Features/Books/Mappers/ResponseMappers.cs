@@ -13,6 +13,8 @@ public static class ResponseMappers
             Description = book.Description,
             Authors = book.Authors,
             PublishDate = book.PublishDate,
+            CreatedAt = book.CreatedAt,
+            LastUpdatedAt = book.LastUpdatedAt,
         };
     }
 }

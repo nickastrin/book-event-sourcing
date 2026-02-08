@@ -7,5 +7,5 @@ export interface Book {
   publishDate?: string;
 
   createdAt?: Date;
-  updatedAt?: Date;
+  lastUpdatedAt?: Date;
 }
