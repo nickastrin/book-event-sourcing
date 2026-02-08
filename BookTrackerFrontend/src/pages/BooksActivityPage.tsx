@@ -1,13 +1,9 @@
 import { useParams } from "react-router";
-import {
-  useGetById,
-  useGetHistory,
-  useUpdate,
-} from "../features/books/queries";
+import { useGetById, useUpdate } from "../features/books/queries";
 import { BookService } from "../features/books/services";
 import moment from "moment";
 import { useState } from "react";
-import { BooksUpsertModal, extractEventDetails } from "@src/features/books";
+import { BooksUpsertModal, BookTimeline } from "@src/features/books";
 import clsx from "clsx";
 
 export const BooksActivityPage = () => {
@@ -17,79 +13,44 @@ export const BooksActivityPage = () => {
   const { id } = useParams();
   const { data } = useGetById({ id: id!, service });
 
-  const { data: history } = useGetHistory({
-    id: id!,
-    service,
-  });
-
   const { updateEntry } = useUpdate({ service });
 
   return (
-    <div className="flex flex-row gap-4 flex-1 max-h-[80dvh]">
-      <div className="border rounded-xl p-4 basis-1/3 bg-zinc-700">
-        <h1>{data?.title}</h1>
-        <p>{data?.description}</p>
-        <p>{moment(data?.publishDate).format("MMMM Do, YYYY")}</p>
-        <p>{data?.authors.join(", ")}</p>
-      </div>
-
-      <div className="border rounded-xl w-[400px] overflow-hidden">
-        <div className="rounded-xl p-4 size-full overflow-y-auto text-start">
-          <ol className="relative border-s border-default">
-            {history.reverse().map((event, index) => {
-              const details = extractEventDetails(event);
-              return (
-                <li key={index} className="mb-10 ms-4">
-                  <div
-                    className={clsx(
-                      "absolute w-3 h-3 bg-indigo-300 rounded-full",
-                      "mt-1.5 -start-1.5 border-2 border-buffer border-zinc-900",
-                    )}
-                  />
-
-                  <time
-                    className={clsx(
-                      "text-sm font-normal leading-none text-body",
-                      "bg-indigo-500/30 px-2 py-1 rounded-md text-indigo-50",
-                    )}
-                  >
-                    {moment
-                      .utc(event.modifiedAt)
-                      .local()
-                      .format("MMMM Do YYYY, h:mm:ss a")}
-                  </time>
-
-                  <h3 className="text-lg font-semibold text-heading my-2">
-                    {details.title}
-                  </h3>
-
-                  <p
-                    className={clsx(
-                      "mb-4 text-sm font-normal text-body",
-                      "flex flex-row flex-wrap",
-                    )}
-                  >
-                    <span>{details.message}</span>
-                    {details?.change && (
-                      <span className="font-bold ms-1 text-indigo-100">
-                        {details.change}
-                      </span>
-                    )}
-                    <span>.</span>
-                  </p>
-                </li>
-              );
-            })}
-          </ol>
-        </div>
-      </div>
-
-      <button
-        className="fixed bottom-0 right-0 m-4 flex justify-center icon"
-        onClick={() => setShowModal(true)}
+    <div
+      className={clsx(
+        "flex sm:flex-row gap-4 flex-1",
+        "flex-col max-h-[80dvh]",
+      )}
+    >
+      <div
+        className={clsx(
+          "relative border rounded-xl p-6",
+          "max-w-[420px] bg-zinc-700 gap-6",
+          "flex flex-col overflow-y-auto",
+        )}
       >
-        <span className="material-symbols-outlined block">edit</span>
-      </button>
+        <h1 className="font-bold">{data?.title}</h1>
+        <p className="text-lg">{data?.description}</p>
+
+        <div
+          className={clsx(
+            "mt-auto flex flex-col gap-1",
+            "text-sm text-body w-50 mx-auto",
+          )}
+        >
+          <p>{moment(data?.publishDate).format("MMMM Do, YYYY")}</p>
+          <p className="font-bold">{data?.authors.join(", ")}</p>
+        </div>
+
+        <button
+          className="absolute bottom-0 right-0 m-4 flex justify-center icon"
+          onClick={() => setShowModal(true)}
+        >
+          <span className="material-symbols-outlined block">edit</span>
+        </button>
+      </div>
+
+      <BookTimeline id={id!} service={service} />
 
       <BooksUpsertModal
         show={showModal}
