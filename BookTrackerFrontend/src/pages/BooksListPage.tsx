@@ -22,7 +22,7 @@ export const BooksListPage = () => {
       </div>
 
       <button
-        className="fixed bottom-0 right-0 m-4 flex justify-center icon"
+        className="fixed bottom-0 right-0 m-4 flex justify-center icon z-50"
         onClick={() => setShowModal(true)}
       >
         <span className="material-symbols-outlined block">add</span>
