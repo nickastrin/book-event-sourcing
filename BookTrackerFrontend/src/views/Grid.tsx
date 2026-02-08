@@ -5,6 +5,8 @@ import {
   type ColumnDef,
 } from "@tanstack/react-table";
 import { useNavigate } from "react-router";
+import clsx from "clsx";
+import { GridPagination } from "./GridPagination";
 
 interface GridProps<T extends { id: string }> {
   data: T[];
@@ -14,6 +16,7 @@ interface GridProps<T extends { id: string }> {
 
 export function Grid<T extends { id: string }>({
   data,
+  totalCount,
   columns,
 }: GridProps<T>) {
   const navigate = useNavigate();
@@ -25,13 +28,18 @@ export function Grid<T extends { id: string }>({
   });
 
   return (
-    <div className="border rounded-lg size-full border-gray-300">
+    <div
+      className={clsx(
+        "border rounded-lg size-full bg-zinc-900",
+        "overflow-y-auto border-gray-300",
+      )}
+    >
       <table className="size-full table-fixed border-collapse">
-        <thead className="border-b">
+        <thead className="sticky top-0 z-10 bg-zinc-900 border-b">
           {table.getHeaderGroups().map((hg) => (
             <tr key={hg.id}>
               {hg.headers.map((header) => (
-                <th className="px-3 py-4 text-left" key={header.id}>
+                <th className="px-3 py-5 text-left" key={header.id}>
                   {flexRender(
                     header.column.columnDef.header,
                     header.getContext(),
@@ -60,6 +68,13 @@ export function Grid<T extends { id: string }>({
             </tr>
           ))}
         </tbody>
+        <tfoot className="sticky bottom-0 z-10 bg-zinc-900 border-t">
+          <tr>
+            <td className="p-3 text-left" colSpan={columns.length}>
+              <GridPagination totalCount={totalCount} />
+            </td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   );
