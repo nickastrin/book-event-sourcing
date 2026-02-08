@@ -3,16 +3,31 @@ using BookTracker.Api.Features.Books.Services;
 using JasperFx;
 using Marten;
 using Marten.Events.Projections;
-using Microsoft.AspNetCore.OpenApi;
 
 namespace BookTracker.Api;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructure(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
         services.AddOpenApi();
         services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
+        services.AddCors(options =>
+        {
+            var allowedOrigins = configuration
+                .GetSection("Cors:AllowedOrigins")
+                .Get<string[]>() ?? [];
+            
+            options.AddPolicy("AllowReactApp", policy =>
+            {
+                policy.WithOrigins(allowedOrigins)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+        });
         return services;
     }
     
@@ -40,7 +55,7 @@ public static class DependencyInjection
     public static IServiceCollection AddServices(
         this IServiceCollection services)
     {
-        services.AddScoped<IBookService, BookService>();
+        services.AddScoped<IBooksService, BooksService>();
 
         return services;
     }

@@ -7,7 +7,7 @@ namespace BookTracker.Api.Features.Books.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class BookController(IBookService service) : ControllerBase
+public class BooksController(IBooksService service) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<BookResponse>> GetAllBooks(
@@ -60,15 +60,15 @@ public class BookController(IBookService service) : ControllerBase
         UpdateBookRequest book, 
         CancellationToken token = default)
     {
-        await service.HandleUpdate(id, book, token);
-        return Ok();
+        var response = await service.HandleUpdate(id, book, token);
+        return Ok(response);
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteBook(Guid id, 
         CancellationToken token = default)
     {
-        await service.HandleDelete(id, token);
-        return Ok();
+        var response = await service.HandleDelete(id, token);
+        return Ok(response);
     }
 }
