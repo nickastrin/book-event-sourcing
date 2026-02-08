@@ -18,11 +18,18 @@ export const Dropdown = ({ label, children }: DropdownProps) => {
     const onClickOutside = (event: MouseEvent) => {
       const dropdownElement = dropdownRef.current;
       const buttonElement = buttonRef.current;
+
+      const portalElement = document.getElementById("date-picker-portal");
+      const isClickInsideCalendar = portalElement?.contains(
+        event.target as Node,
+      );
+
       if (
         dropdownElement &&
         !dropdownElement.contains(event.target as Node) &&
         buttonElement &&
-        !buttonElement.contains(event.target as Node)
+        !buttonElement.contains(event.target as Node) &&
+        !isClickInsideCalendar
       ) {
         setIsOpen(false);
       }

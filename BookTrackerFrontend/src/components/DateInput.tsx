@@ -18,9 +18,7 @@ export const DateInput = ({
 }: DateInputProps) => {
   return (
     <div className="flex flex-col items-start gap-1">
-      <label>
-        <span className="text-sm font-bold">{label}</span>
-      </label>
+      <span className="text-sm font-bold">{label}</span>
 
       <div
         className={clsx(

@@ -20,27 +20,26 @@ export const DateFilter = ({ filterKey, label }: DateFilterProps) => {
   );
 
   return (
-    <div onMouseDown={(e) => e.stopPropagation()}>
-      <DateInput
-        label={label}
-        selected={startDate}
-        onChange={(date: Date | null) => {
-          setStartDate(date);
-          const updatedFilters = { ...queryFilters.filters };
-          if (date) {
-            updatedFilters[filterKey] = {
-              key: filterKey,
-              value: moment(date).format("YYYY-MM-DD"),
-            };
-          } else {
-            delete updatedFilters[filterKey];
-          }
+    <DateInput
+      key={filterKey}
+      label={label}
+      selected={startDate}
+      onChange={(date: Date | null) => {
+        setStartDate(date);
+        const updatedFilters = { ...queryFilters.filters };
+        if (date) {
+          updatedFilters[filterKey] = {
+            key: filterKey,
+            value: moment(date).format("YYYY-MM-DD"),
+          };
+        } else {
+          delete updatedFilters[filterKey];
+        }
 
-          onUpdateQueryFilters({
-            filters: updatedFilters,
-          });
-        }}
-      />
-    </div>
+        onUpdateQueryFilters({
+          filters: updatedFilters,
+        });
+      }}
+    />
   );
 };
