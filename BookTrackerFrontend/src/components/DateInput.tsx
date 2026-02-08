@@ -24,7 +24,7 @@ export const DateInput = ({
 
       <div
         className={clsx(
-          "date-input border rounded-lg focus-within:ring-2",
+          "border rounded-lg focus-within:ring-2",
           "focus-within:ring-indigo-500 w-full",
           "flex flex-row items-center px-3",
         )}
@@ -40,6 +40,7 @@ export const DateInput = ({
           selected={selected}
           onChange={onChange}
           placeholderText={placeholder || "Select date"}
+          portalId="date-picker-portal"
         />
 
         {isClearable && selected && (

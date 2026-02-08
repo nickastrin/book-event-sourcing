@@ -1,0 +1,11 @@
+.sort-button {
+  border: 1px solid #ccc;
+  .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  &.active {
+    background-color: #4f39f6;
+    color: white;
+  }
+}

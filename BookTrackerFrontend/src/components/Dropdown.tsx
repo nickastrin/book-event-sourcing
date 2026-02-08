@@ -38,8 +38,8 @@ export const Dropdown = ({ label, children }: DropdownProps) => {
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
       setCoords({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
+        top: rect.bottom,
+        left: rect.left,
         width: rect.width,
       });
     }
@@ -87,15 +87,15 @@ export const Dropdown = ({ label, children }: DropdownProps) => {
               top: `${coords.top}px`,
               left: `${coords.left}px`,
               minWidth: `${coords.width}px`,
-              zIndex: 9999,
+              zIndex: 50,
               pointerEvents: "auto",
             }}
             className={clsx(
               "border rounded-xl mt-1 shadow-2xl bg-zinc-800",
-              "min-h-32 w-48 max-h-44 flex flex-col overflow-hidden",
+              "flex flex-col overflow-hidden",
             )}
           >
-            <div className="overflow-y-auto p-4">{children}</div>
+            <div className="overflow-y-auto">{children}</div>
           </div>,
           document.body,
         )}

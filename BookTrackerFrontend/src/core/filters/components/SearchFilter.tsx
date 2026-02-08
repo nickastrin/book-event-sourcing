@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useFilterContext } from "../contexts";
 import { DEFAULT_PAGINATION } from "../types";
 import { debounce } from "lodash";
+import { Input } from "@src/components";
 
 export const SearchFilter = () => {
   const { queryFilters, onUpdateQueryFilters } = useFilterContext();
@@ -29,8 +30,9 @@ export const SearchFilter = () => {
   };
 
   return (
-    <input
+    <Input
       type="text"
+      icon={"search"}
       value={search}
       onChange={onInputChange}
       placeholder="Search..."

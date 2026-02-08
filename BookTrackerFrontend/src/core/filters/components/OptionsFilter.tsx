@@ -1,13 +1,22 @@
 import { useMemo } from "react";
 import { useFilterContext } from "../contexts";
 import { DEFAULT_PAGINATION } from "../types";
+import { Dropdown } from "@src/components";
+import { FilterLabel } from "./FilterLabel";
 
 interface OptionsFilterProps {
   filterKey: string;
+  label: string;
+  icon?: string;
   options: string[];
 }
 
-export const OptionsFilter = ({ filterKey, options }: OptionsFilterProps) => {
+export const OptionsFilter = ({
+  filterKey,
+  label,
+  icon,
+  options,
+}: OptionsFilterProps) => {
   const { queryFilters, onUpdateQueryFilters } = useFilterContext();
   const filter = queryFilters.filters?.[filterKey] || null;
 
@@ -42,17 +51,23 @@ export const OptionsFilter = ({ filterKey, options }: OptionsFilterProps) => {
   };
 
   return (
-    <div>
-      {options.map((option) => (
-        <label key={option}>
-          <input
-            type="checkbox"
-            checked={activeValue?.includes(option) || false}
-            onChange={() => onOptionToggle(option)}
-          />
-          {option}
-        </label>
-      ))}
-    </div>
+    <Dropdown label={<FilterLabel label={label} icon={icon} />}>
+      <div className="max-h-60 overflow-y-auto p-4">
+        {options.map((option) => (
+          <div key={option}>
+            <label className="flex items-center gap-2 p-2 w-full cursor-pointer">
+              <input
+                type="checkbox"
+                value={option}
+                className="accent-indigo-400"
+                checked={activeValue?.includes(option) || false}
+                onChange={() => onOptionToggle(option)}
+              />
+              <span className="truncate text-white">{option}</span>
+            </label>
+          </div>
+        ))}
+      </div>
+    </Dropdown>
   );
 };
