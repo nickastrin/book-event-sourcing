@@ -27,6 +27,8 @@ public static class OrderHelper
             "title" => query.ApplySort(x => x.Title.ToLower(), isDescending),
             "description" => query.ApplySort(x => x.Description.ToLower(), isDescending),
             "publishdate" => query.ApplySort(x => x.PublishDate, isDescending),
+            "createdat" => query.ApplySort(x => x.CreatedAt, isDescending),
+            "lastupdatedat" => query.ApplySort(x => x.LastUpdatedAt, isDescending),
             _ => query.ApplySort(x => x.Title.ToLower(), isDescending)
         };
     }
