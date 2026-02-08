@@ -75,7 +75,7 @@ public class Book
             yield return @event;
         }
 
-        if (!string.IsNullOrEmpty(request.Description) && Description != request.Description)
+        if (Description != request.Description)
         {
             var @event = new DescriptionChanged(Id, request.Description);
             yield return @event;

@@ -25,7 +25,7 @@ export const BooksActivityPage = () => {
       <div
         className={clsx(
           "relative border rounded-xl p-6",
-          "max-w-[420px] bg-zinc-700 gap-6",
+          "w-[420px] bg-zinc-700 gap-6",
           "flex flex-col overflow-y-auto",
         )}
       >

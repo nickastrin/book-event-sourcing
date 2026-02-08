@@ -15,9 +15,12 @@ export const extractEventDetails = (event: BookModification) => {
         change: event.details.change,
       };
     case BookEvent["DESCRIPTION_CHANGED"]:
+      const message = !!event.details.change
+        ? "Book description was changed to"
+        : "Book description was removed";
       return {
         title: "Description Changed",
-        message: "Book description was changed to",
+        message,
         change: event.details.change,
       };
     case BookEvent["AUTHOR_ADDED"]:
