@@ -6,7 +6,7 @@ public record BookAdded
     public required string Title { get; init; }
     public string? Description { get; init; }
     public List<string> Authors { get; init; } = [];
-    public DateOnly PublishDate { get; init; }
+    public DateOnly? PublishDate { get; init; }
 }
     
 public record TitleChanged(Guid Id, string Title);
