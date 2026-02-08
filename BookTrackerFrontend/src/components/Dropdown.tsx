@@ -1,13 +1,17 @@
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 
-export const Dropdown = () => {
-  const dropdownRef = useRef<HTMLDivElement>(null);
+interface DropdownProps {
+  children: React.ReactNode;
+}
+
+export const Dropdown = ({ children }: DropdownProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const onClickOutside = (event: MouseEvent) => {
-      const dropdownElement = dropdownRef.current;
+      const dropdownElement = containerRef.current;
       if (dropdownElement && !dropdownElement.contains(event.target as Node)) {
         setIsOpen(false);
       }
@@ -20,24 +24,22 @@ export const Dropdown = () => {
   }, []);
 
   return (
-    <div className="dropdown relative">
+    <div ref={containerRef} className="dropdown relative inline-block">
       <button
         type="button"
         className="dropdown-toggle"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen((prev) => !prev)}
       >
         Dropdown
       </button>
       <div
-        ref={dropdownRef}
-        className={clsx("dropdown-menu absolute bg-black", {
-          block: isOpen,
-          hidden: !isOpen,
-        })}
+        className={clsx(
+          "dropdown-menu absolute border rounded-xl mt-1 p-4",
+          "min-h-32 w-48 max-h-48 flex flex-col gap-2 overflow-y-auto",
+          { hidden: !isOpen },
+        )}
       >
-        <a href="#">Option 1</a>
-        <a href="#">Option 2</a>
-        <a href="#">Option 3</a>
+        {children}
       </div>
     </div>
   );
