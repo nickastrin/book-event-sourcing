@@ -16,8 +16,10 @@ export const BooksListPage = () => {
 
   return (
     <FilterProvider>
-      <BooksFilterbar />
-      <BooksTable service={service} />
+      <div className="flex flex-col gap-4">
+        <BooksFilterbar />
+        <BooksTable service={service} />
+      </div>
 
       <button
         className="fixed bottom-0 right-0 m-4 flex justify-center icon"

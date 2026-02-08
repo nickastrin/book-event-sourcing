@@ -4,7 +4,7 @@ interface MainLayoutProps {
 
 export const MainLayout = ({ children }: MainLayoutProps) => {
   return (
-    <div className="min-h-screen">
+    <div className="flex flex-col">
       <nav className="p-4">
         <h1 className="text-xl font-bold">Book Tracker</h1>
       </nav>

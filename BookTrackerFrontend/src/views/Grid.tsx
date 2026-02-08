@@ -25,13 +25,13 @@ export function Grid<T extends { id: string }>({
   });
 
   return (
-    <div className="border rounded-md border-gray-300">
-      <table>
-        <thead>
+    <div className="border rounded-lg size-full border-gray-300">
+      <table className="size-full table-fixed border-collapse">
+        <thead className="border-b">
           {table.getHeaderGroups().map((hg) => (
             <tr key={hg.id}>
               {hg.headers.map((header) => (
-                <th key={header.id}>
+                <th className="px-3 py-4 text-left" key={header.id}>
                   {flexRender(
                     header.column.columnDef.header,
                     header.getContext(),
@@ -45,12 +45,16 @@ export function Grid<T extends { id: string }>({
           {table.getRowModel().rows.map((row) => (
             <tr
               key={row.id}
-              className="cursor-pointer"
+              className={clsx(
+                "cursor-pointer even:bg-zinc-800/30 hover:bg-indigo-500/10",
+              )}
               onClick={() => navigate(row.id)}
             >
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                <td className="p-3 text-left truncate" key={cell.id}>
+                  {!cell?.getValue()
+                    ? "-"
+                    : flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
             </tr>
