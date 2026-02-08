@@ -8,7 +8,7 @@ public class Book
     public string Description { get; set; } = string.Empty; 
     
     public List<string> Authors { get; set; } = [];
-    public DateOnly PublishDate { get; set; }
+    public DateOnly? PublishDate { get; set; }
 
     public bool IsDeleted { get; set; }
     
@@ -75,7 +75,7 @@ public class Book
             yield return @event;
         }
 
-        if (!string.IsNullOrEmpty(request.Description) && Description != request.Description)
+        if (Description != request.Description)
         {
             var @event = new DescriptionChanged(Id, request.Description);
             yield return @event;

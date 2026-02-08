@@ -6,7 +6,7 @@ public record CreateBookRequest
     public string Description { get; set; } = string.Empty; 
     
     public List<string> Authors { get; set; } = [];
-    public DateOnly PublishDate { get; set; }
+    public DateOnly? PublishDate { get; set; }
 }
 
 public record UpdateBookRequest

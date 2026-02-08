@@ -3,7 +3,7 @@ import type { BookService } from "../services";
 import type { Book } from "../types";
 
 type GetAllArgs = {
-  params: URLSearchParams;
+  params: string;
   service: BookService;
 };
 
@@ -45,7 +45,7 @@ export const useGetHistory = ({ id, service }: GetByIdArgs) => {
     queryFn: ({ signal }) => service.getHistory(id, signal),
   });
 
-  return { data, isFetching };
+  return { data: data ?? [], isFetching };
 };
 
 export const useCreate = ({ service }: CreateArgs) => {

@@ -5,10 +5,10 @@ export class BookService {
   private baseUrl = "/books";
 
   getAll = async (
-    params: URLSearchParams,
+    params: string,
     signal?: AbortSignal,
   ): Promise<PaginatedResponse<Book>> => {
-    const queryPath = `${this.baseUrl}?${params.toString()}`;
+    const queryPath = `${this.baseUrl}?${params}`;
     return await httpClient.get(queryPath, {
       signal,
     });
@@ -22,7 +22,7 @@ export class BookService {
   getHistory = async (
     id: string,
     signal?: AbortSignal,
-  ): Promise<BookHistory[]> => {
+  ): Promise<BookHistory> => {
     const queryPath = `${this.baseUrl}/${id}/history`;
     return await httpClient.get(queryPath, { signal });
   };
