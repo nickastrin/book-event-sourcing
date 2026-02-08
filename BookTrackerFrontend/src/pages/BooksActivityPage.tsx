@@ -1,9 +1,16 @@
 import { useParams } from "react-router";
-import { useGetById, useGetHistory } from "../features/books/queries";
+import {
+  useGetById,
+  useGetHistory,
+  useUpdate,
+} from "../features/books/queries";
 import { BookService } from "../features/books/services";
 import moment from "moment";
+import { useState } from "react";
+import { BooksUpsertModal } from "@src/features/books";
 
 export const BooksActivityPage = () => {
+  const [showModal, setShowModal] = useState(false);
   const service = new BookService();
 
   const { id } = useParams();
@@ -13,6 +20,8 @@ export const BooksActivityPage = () => {
     id: id!,
     service,
   });
+
+  const { updateEntry } = useUpdate({ service });
 
   return (
     <>
@@ -36,6 +45,25 @@ export const BooksActivityPage = () => {
           );
         })}
       </div>
+
+      <button
+        className="fixed bottom-0 right-0 m-4 flex justify-center icon"
+        onClick={() => setShowModal(true)}
+      >
+        <span className="material-symbols-outlined block">add</span>
+      </button>
+
+      <BooksUpsertModal
+        show={showModal}
+        initialValues={data}
+        onClose={() => setShowModal(false)}
+        onSubmit={async (data) => {
+          const updateId = await updateEntry({ id: id!, data });
+          setShowModal(false);
+
+          return updateId;
+        }}
+      />
     </>
   );
 };

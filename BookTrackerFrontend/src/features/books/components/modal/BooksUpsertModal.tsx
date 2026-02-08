@@ -5,6 +5,7 @@ import moment from "moment";
 import clsx from "clsx";
 import { BooksAuthorDropdown } from "./BooksAuthorDropdown";
 import { BooksAuthorDisplay } from "./BooksAuthorDisplay";
+import { useEffect } from "react";
 
 interface BooksUpsertModalProps {
   initialValues?: Book;
@@ -26,6 +27,12 @@ export const BooksUpsertModal = ({
       authors: [],
     },
   });
+
+  useEffect(() => {
+    if (show && initialValues) {
+      methods.reset(initialValues);
+    }
+  }, [initialValues, show, methods]);
 
   const modalHeader = initialValues ? "Edit Book" : "Add New Book";
 

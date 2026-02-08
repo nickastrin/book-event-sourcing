@@ -1,9 +1,12 @@
-import { useWatch } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import clsx from "clsx";
+import type { Book } from "../../types";
 
 export const BooksAuthorDisplay = () => {
+  const { control } = useFormContext<Book>();
   const selectedAuthors: string[] = useWatch({
     name: "authors",
+    control,
     defaultValue: [],
   });
 
