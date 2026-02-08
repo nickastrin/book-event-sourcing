@@ -14,13 +14,16 @@ export const Modal = ({ show, header, onClose, children }: ModalProps) => {
       {show && (
         <div
           className={clsx(
-            "modal fixed top-0 left-0 size-full z-50 py-32",
-            "bg-black/50 flex items-center justify-center",
+            "modal fixed top-0 left-0 size-full z-50",
+            "flex items-center justify-center bg-black/50",
           )}
-          onClick={() => onClose()}
+          onClick={onClose}
         >
           <div
-            className="relative bg-zinc-700 rounded-xl max-w-sm w-full h-full"
+            className={clsx(
+              "relative bg-zinc-700 rounded-xl flex flex-col",
+              "max-w-sm w-full max-h-[75vh] overflow-hidden",
+            )}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex flex-row items-center gap-4 p-4 border-b">
@@ -36,7 +39,9 @@ export const Modal = ({ show, header, onClose, children }: ModalProps) => {
               </button>
             </div>
 
-            {children}
+            <div className="flex-1 overflow-y-auto flex flex-col min-h-0">
+              {children}
+            </div>
           </div>
         </div>
       )}

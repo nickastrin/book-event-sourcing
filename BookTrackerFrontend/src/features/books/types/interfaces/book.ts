@@ -4,7 +4,7 @@ export interface Book {
   description?: string;
 
   authors: string[];
-  publishDate: Date;
+  publishDate?: string;
 
   createdAt?: Date;
   updatedAt?: Date;
