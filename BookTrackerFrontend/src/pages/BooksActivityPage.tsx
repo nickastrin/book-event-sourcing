@@ -50,7 +50,7 @@ export const BooksActivityPage = () => {
         className="fixed bottom-0 right-0 m-4 flex justify-center icon"
         onClick={() => setShowModal(true)}
       >
-        <span className="material-symbols-outlined block">add</span>
+        <span className="material-symbols-outlined block">edit</span>
       </button>
 
       <BooksUpsertModal
